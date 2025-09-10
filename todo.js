@@ -4,13 +4,13 @@ const display = document.getElementById("window");
 //FUNCTION FOR REMOVING TASKS
 
 function removeTask(e) {
-  e.currentTarget.parentElement.remove();
+  e.currentTarget.parentElement.parentElement.remove();
 }
 
 // FUNCTION TO MARK TASKS AS COMPLETE
 
 function markAsCompleted(e) {
-  e.currentTarget.parentElement.style.color = "ForestGreen";
+  e.currentTarget.parentElement.parentElement.style.color = "ForestGreen";
 }
 
 // FUNCTION TO ADD TASK TO LIST.
@@ -20,53 +20,76 @@ function markAsCompleted(e) {
 function addItem() {
   const entry = document.getElementById("entry");
 
+  const parentDiv = document.createElement("div");
+
+  parentDiv.style.backgroundColor = "blue";
+  parentDiv.style.height = "120px";
+  parentDiv.style.display = "flex";
+
+  display.appendChild(parentDiv);
+
   const div = document.createElement("div");
   const child = document.createElement("div");
-  div.style.width = "446px";
-  //   div.style.height = "80px";
+  div.style.width = "370px";
+
   div.style.backgroundColor = "white";
   div.style.border = " 2px solid black";
-  div.style.display = "flex";
-  div.style.alignItems = "center";
-  //   div.style.overflow = "hidden";
 
-  child.style.backgroundColor = "white";
   child.style.fontSize = "30px";
   child.style.fontWeight = "bolder";
   child.textContent = entry.value;
   entry.value = "";
   child.style.marginLeft = "30px";
-  child.style.overflow = "hidden";
   child.style.fontFamily = "monospace";
+  child.style.maxHeight = "100%";
+  child.style.overflowY = "scroll";
 
   const deleteButton = document.createElement("button");
   deleteButton.innerText = "X";
-
-  deleteButton.style.height = "50px";
-  deleteButton.style.width = "50px";
-
-  deleteButton.style.fontSize = "20px";
+  deleteButton.style.height = "30px";
+  deleteButton.style.width = "30px";
+  deleteButton.style.fontSize = "30px";
   deleteButton.style.fontWeight = "bolder";
-  deleteButton.style.position = "absolute";
-  deleteButton.style.right = "-140px";
+
+  deleteButton.style.display = "flex";
+  deleteButton.style.justifyContent = "center";
+  deleteButton.style.alignItems = "center";
+
   deleteButton.addEventListener("click", removeTask);
 
   const markButton = document.createElement("button");
   markButton.innerText = "✓";
 
-  markButton.style.height = "50px";
-  markButton.style.width = "50px";
+  markButton.style.height = "30px";
+  markButton.style.width = "30px";
 
-  markButton.style.fontSize = "20px";
+  markButton.style.fontSize = "30px";
   markButton.style.fontWeight = "bolder";
-  markButton.style.position = "absolute";
-  markButton.style.right = "-80px";
+
+  markButton.style.display = "flex";
+  markButton.style.justifyContent = "center";
+  markButton.style.alignItems = "center";
   markButton.addEventListener("click", markAsCompleted);
 
-  div.appendChild(markButton);
-  div.appendChild(deleteButton);
-  display.appendChild(div);
+  parentDiv.appendChild(div);
   div.appendChild(child);
+
+  const displayBorderWidth = parseInt(getComputedStyle(div).borderWidth, 10);
+  const actionButtonsHolder = document.createElement("div");
+
+  actionButtonsHolder.style.width =
+    display.offsetWidth - div.offsetWidth - displayBorderWidth * 2 + "px";
+  actionButtonsHolder.style.backgroundColor = "red";
+  actionButtonsHolder.style.display = "flex";
+  actionButtonsHolder.style.justifyContent = "center";
+  actionButtonsHolder.style.alignItems = "center";
+  actionButtonsHolder.style.gap = "5px";
+  actionButtonsHolder.style.border = div.style.border;
+
+  parentDiv.appendChild(actionButtonsHolder);
+
+  actionButtonsHolder.appendChild(markButton);
+  actionButtonsHolder.appendChild(deleteButton);
 }
 
 addButton.addEventListener("click", addItem);
