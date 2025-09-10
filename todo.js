@@ -23,12 +23,12 @@ function addItem() {
   const div = document.createElement("div");
   const child = document.createElement("div");
   div.style.width = "446px";
-  div.style.height = "80px";
+  //   div.style.height = "80px";
   div.style.backgroundColor = "white";
   div.style.border = " 2px solid black";
   div.style.display = "flex";
   div.style.alignItems = "center";
-  div.style.overflow = "hidden";
+  //   div.style.overflow = "hidden";
 
   child.style.backgroundColor = "white";
   child.style.fontSize = "30px";
